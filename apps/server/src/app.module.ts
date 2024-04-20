@@ -13,7 +13,7 @@ import { join } from 'path';
     imports: [
         ServeStaticModule.forRoot({
             rootPath: join(__dirname, '..', 'client'),
-            renderPath: '/',
+            exclude: ['/api*'],
         }),
         ConfigModule.forRoot({ isGlobal: true }),
         AuthModule,
