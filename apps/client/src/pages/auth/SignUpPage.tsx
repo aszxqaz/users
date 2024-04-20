@@ -24,7 +24,6 @@ export function SignUpPage() {
         handleSubmit,
         formState: { errors },
     } = useForm({ resolver: yupResolver(signUpYupSchema) });
-
     return (
         <FormContainer>
             <Heading textAlign="center" mb="1rem">
@@ -83,7 +82,6 @@ export function SignUpPage() {
                 <Text color="tomato" minH="1.1rem" mt="0.5rem">
                     {error}
                 </Text>
-
                 <Button
                     type="submit"
                     isLoading={isLoading}
@@ -94,7 +92,6 @@ export function SignUpPage() {
                 >
                     Sign Up
                 </Button>
-
                 <Text textAlign="center" mt="3rem !important">
                     Have an account?&nbsp;
                     <Link as={NavLink} to="/signin" textDecoration="underline">

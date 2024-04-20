@@ -11,7 +11,6 @@ const ApiClientContext = createContext<ApiClientContext>({
 
 export function ApiClientProvider({ children }: PropsWithChildren) {
     const apiClient = new ApiClient();
-
     return (
         <ApiClientContext.Provider value={{ apiClient }}>
             {children}

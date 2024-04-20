@@ -25,7 +25,6 @@ export const AuthRedirect = ({
             />
         );
     }
-
     if (
         state.inner.status == AuthStatus.Unauthenticated &&
         whenUnauthenticated

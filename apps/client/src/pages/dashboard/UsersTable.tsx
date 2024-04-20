@@ -26,19 +26,16 @@ export function UsersTable({
     onCheckAll,
     onChecked,
 }: UsersTableProps) {
-    const allChecked = users.every(user => getCheckedForUser(user.id));
+    const allChecked = users.every((user) => getCheckedForUser(user.id));
     const isIndeterminate =
-        users.some(user => getCheckedForUser(user.id)) && !allChecked;
-
+        users.some((user) => getCheckedForUser(user.id)) && !allChecked;
     const getOnChangeOne =
         (id: DashboardUser['id']) => (event: ChangeEvent<HTMLInputElement>) => {
             onChecked(id, event.target.checked);
         };
-
     const onChangeAll = (e: ChangeEvent<HTMLInputElement>) => {
         onCheckAll(e.target.checked);
     };
-
     return (
         <Table variant="striped" colorScheme="gray" size="sm">
             <TableCaption>
@@ -64,7 +61,7 @@ export function UsersTable({
                 </Tr>
             </Thead>
             <Tbody>
-                {users.map(user => (
+                {users.map((user) => (
                     <Tr key={user.id}>
                         <Td className={styles.tdresp}>
                             <Checkbox

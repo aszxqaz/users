@@ -19,13 +19,10 @@ export function DashboardPage() {
                     <Spinner size="xl" />
                 </Center>
             );
-
         case FetchingStatus.Error:
             return <Text>{dashboardState.inner.message}</Text>;
-
         case FetchingStatus.Ready:
             const users = dashboardState.inner.users;
-
             return (
                 <VStack mt="5rem">
                     <Heading mb="4rem">Users</Heading>

@@ -7,11 +7,9 @@ import { useAuthFetcher } from '../../state/hooks/auth';
 
 export function RootPage({ children }: PropsWithChildren) {
     const { authState } = useAuthFetcher();
-
     if (authState.inner.status == AuthStatus.Unknown) {
         return SpinnerOverlay();
     }
-
     return (
         <Box>
             <NavBar links={[]}>
