@@ -7,13 +7,12 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import { hash, verify } from 'argon2';
-import { JwtPayload } from './access_token.strategy';
-import { SignInDto, SignUpDto } from './auth.dto';
-import { PrismaService } from '../prisma/prisma.service';
-import { UserInRequest } from './access_token.strategy';
-import { getSanitizedUser } from '../helpers';
 import { User } from '@prisma/client';
+import { hash, verify } from 'argon2';
+import { getSanitizedUser } from '../helpers';
+import { PrismaService } from '../prisma/prisma.service';
+import { JwtPayload, UserInRequest } from './access_token.strategy';
+import { SignInDto, SignUpDto } from './auth.dto';
 
 @Injectable()
 export class AuthService {

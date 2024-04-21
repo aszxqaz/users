@@ -1,7 +1,7 @@
-import { useLocation, Navigate } from 'react-router-dom';
+import { PropsWithChildren } from 'react';
+import { Navigate, useLocation } from 'react-router-dom';
 import { AuthStatus } from '../state/features';
 import { useAuthState } from '../state/hooks';
-import { PropsWithChildren } from 'react';
 
 type AuthorizationRedirectProps = {
     to: string;

@@ -1,6 +1,6 @@
 import { Navigate, useLocation } from 'react-router-dom';
-import { useAuthState } from '../state/hooks/app';
 import { AuthStatus } from '../state/features';
+import { useAuthState } from '../state/hooks/app';
 
 type AuthRedirectProps = {
     whenAuthenticated?: string;

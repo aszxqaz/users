@@ -1,8 +1,8 @@
 import { PropsWithChildren } from 'react';
-import { useAuthState } from '../state/hooks';
-import { AuthStatus } from '../state/features';
-import { NoContentPlaceholder } from '../components/NoContentPlaceholder';
 import { AiOutlineStop } from 'react-icons/ai';
+import { NoContentPlaceholder } from '../components/NoContentPlaceholder';
+import { AuthStatus } from '../state/features';
+import { useAuthState } from '../state/hooks';
 
 export function AuthorizationGuard({ children }: PropsWithChildren) {
     const { state } = useAuthState();

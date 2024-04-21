@@ -1,7 +1,7 @@
 import { PropsWithChildren, createContext, useState } from 'react';
 import { Dispatch } from './aliases';
-import { AppState } from './types';
 import { AuthState, DashboardState } from './features';
+import { AppState } from './types';
 
 const defaultAppState: AppState = {
     auth: AuthState.initial,

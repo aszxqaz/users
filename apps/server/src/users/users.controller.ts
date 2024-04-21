@@ -11,9 +11,9 @@ import {
     Query,
     UseGuards,
 } from '@nestjs/common';
+import { AuthorizationGuard } from '../common/guards';
 import { UpdateManyReqBody, UpdateManyReqBodyAction } from './request_body';
 import { UsersService } from './users.service';
-import { AuthorizationGuard } from '../common/guards';
 
 @UseGuards(AuthorizationGuard)
 @Controller('api/users')

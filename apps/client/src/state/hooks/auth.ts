@@ -1,8 +1,8 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useApiClient } from '../../api';
+import { AuthStatus, DashboardState } from '../features';
 import { SignInArgs, SignUpArgs } from '../types';
 import { useAppState, useAuthState } from './app';
-import { AuthStatus, DashboardState } from '../features';
 
 export function useAuthFetcher() {
     const { authState, setAuthState } = useAppState();
@@ -10,16 +10,16 @@ export function useAuthFetcher() {
 
     useEffect(() => {
         if (authState.status == AuthStatus.Unknown) {
-            apiClient.fetchAuth().then((result) => {
+            apiClient.fetchAuth().then(result => {
                 result.fold(
-                    (err) => {
-                        setAuthState((prev) => prev.error(err.message));
+                    err => {
+                        setAuthState(prev => prev.error(err.message));
                     },
-                    (user) => {
+                    user => {
                         if (user) {
-                            setAuthState((prev) => prev.authenticated(user));
+                            setAuthState(prev => prev.authenticated(user));
                         } else {
-                            setAuthState((prev) => prev.unauthenticated());
+                            setAuthState(prev => prev.unauthenticated());
                         }
                     }
                 );
@@ -39,18 +39,18 @@ export function useSignInAuthMutation() {
     const signIn = useCallback(
         ({ email, password }: SignInArgs) => {
             setIsLoading(true);
-            apiClient.signIn(email, password).then((result) => {
+            apiClient.signIn(email, password).then(result => {
                 setIsLoading(false);
                 result.fold(
-                    (err) => {
-                        setAuthState((prev) => prev.error(err.message));
+                    err => {
+                        setAuthState(prev => prev.error(err.message));
                         setError(err.message);
                     },
-                    (user) => {
+                    user => {
                         if (user) {
-                            setAuthState((prev) => prev.authenticated(user));
+                            setAuthState(prev => prev.authenticated(user));
                         } else {
-                            setAuthState((prev) => prev.unauthenticated());
+                            setAuthState(prev => prev.unauthenticated());
                         }
                     }
                 );
@@ -71,18 +71,18 @@ export function useSignUpAuthMutation() {
     const signUp = useCallback(
         (data: SignUpArgs) => {
             setIsLoading(true);
-            apiClient.signUp(data).then((result) => {
+            apiClient.signUp(data).then(result => {
                 setIsLoading(false);
                 result.fold(
-                    (err) => {
-                        setAuthState((prev) => prev.error(err.message));
+                    err => {
+                        setAuthState(prev => prev.error(err.message));
                         setError(err.message);
                     },
-                    (user) => {
+                    user => {
                         if (user) {
-                            setAuthState((prev) => prev.authenticated(user));
+                            setAuthState(prev => prev.authenticated(user));
                         } else {
-                            setAuthState((prev) => prev.unauthenticated());
+                            setAuthState(prev => prev.unauthenticated());
                         }
                     }
                 );
@@ -99,7 +99,7 @@ export function useSignOut() {
 
     useEffect(() => {
         localStorage.removeItem('access_token');
-        setAuthState((prev) => prev.unauthenticated());
-        setDashboardState((_) => DashboardState.initial);
+        setAuthState(prev => prev.unauthenticated());
+        setDashboardState(_ => DashboardState.initial);
     }, [setAuthState, setDashboardState]);
 }

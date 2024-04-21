@@ -1,10 +1,9 @@
-import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom';
+import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom';
 import { SignInPage, SignUpPage } from '../pages/auth';
 import { SignOutPage } from '../pages/auth/SignOutPage';
-import { AuthenticationRedirect } from './AuthenticationRedirect';
 import { DashboardPage } from '../pages/dashboard/DashboardPage';
 import { RootPage } from '../pages/root/RootPage';
-import { AuthorizationGuard } from './AuthorizationGuard';
+import { AuthenticationRedirect } from './AuthenticationRedirect';
 import { AuthorizationRedirect } from './AuthorizationRedirect';
 
 export function Router() {

@@ -4,16 +4,15 @@ import {
     Get,
     HttpCode,
     HttpStatus,
-    Logger,
     Post,
     UnauthorizedException,
     UseGuards,
 } from '@nestjs/common';
+import { Public, User } from '../common/decorators';
+import { AuthorizationGuard } from '../common/guards';
+import { UserInRequest } from './access_token.strategy';
 import { SignInDto, SignUpDto } from './auth.dto';
 import { AuthService } from './auth.service';
-import { Public, User } from '../common/decorators';
-import { UserInRequest } from './access_token.strategy';
-import { AuthorizationGuard } from '../common/guards';
 
 @Controller('api/auth')
 export class AuthController {

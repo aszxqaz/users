@@ -1,12 +1,12 @@
-import { Center, Heading, Spinner, Text, VStack } from '@chakra-ui/react';
-import { FetchingStatus } from '../../state/features';
-import { useDashboardQuery } from '../../state/hooks';
-import { NoContentPlaceholder } from '../../components/NoContentPlaceholder';
+import { Heading, VStack } from '@chakra-ui/react';
+import { PropsWithChildren } from 'react';
 import { CiDatabase } from 'react-icons/ci';
 import { RiErrorWarningLine } from 'react-icons/ri';
-import { Dashboard } from './Dashboard';
-import { PropsWithChildren } from 'react';
 import { CenteredSpinner } from '../../components/CenterSpinner';
+import { NoContentPlaceholder } from '../../components/NoContentPlaceholder';
+import { FetchingStatus } from '../../state/features';
+import { useDashboardQuery } from '../../state/hooks';
+import { Dashboard } from './Dashboard';
 
 export function DashboardPage() {
     const { dashboardState } = useDashboardQuery();

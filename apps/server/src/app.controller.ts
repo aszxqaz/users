@@ -1,7 +1,4 @@
-import { Controller, Get, Res } from '@nestjs/common';
-import { Response } from 'express';
-import path from 'path';
-import { Public } from './common/decorators';
+import { Controller } from '@nestjs/common';
 
 @Controller()
 export class AppController {

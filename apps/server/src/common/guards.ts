@@ -4,7 +4,6 @@ import {
     ForbiddenException,
     Inject,
     Injectable,
-    Logger,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { AuthGuard } from '@nestjs/passport';

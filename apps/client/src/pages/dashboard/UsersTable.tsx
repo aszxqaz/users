@@ -9,10 +9,10 @@ import {
     Thead,
     Tr,
 } from '@chakra-ui/react';
+import { ChangeEvent } from 'react';
 import { formatDate } from '../../helpers';
 import { DashboardUser } from '../../state/entities/user';
 import styles from './Table.module.css';
-import { ChangeEvent } from 'react';
 
 type UsersTableProps = {
     users: DashboardUser[];
@@ -27,9 +27,9 @@ export function UsersTable({
     onCheckAll,
     onChecked,
 }: UsersTableProps) {
-    const allChecked = users.every((user) => getCheckedForUser(user.id));
+    const allChecked = users.every(user => getCheckedForUser(user.id));
     const isIndeterminate =
-        users.some((user) => getCheckedForUser(user.id)) && !allChecked;
+        users.some(user => getCheckedForUser(user.id)) && !allChecked;
     const getOnChangeOne =
         (id: DashboardUser['id']) => (event: ChangeEvent<HTMLInputElement>) => {
             onChecked(id, event.target.checked);
@@ -63,7 +63,7 @@ export function UsersTable({
                     </Tr>
                 </Thead>
                 <Tbody>
-                    {users.map((user) => (
+                    {users.map(user => (
                         <Tr key={user.id}>
                             <Td className={styles.tdresp}>
                                 <Checkbox

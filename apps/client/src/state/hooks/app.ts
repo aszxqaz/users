@@ -1,21 +1,21 @@
 import { useContext } from 'react';
 import { StateChanged } from '../aliases';
 import { AppContext } from '../appState';
-import { DashboardState } from '../features/dashboard';
 import { AuthState } from '../features';
+import { DashboardState } from '../features/dashboard';
 
 export function useAppState() {
     const { state, setState } = useContext(AppContext);
 
     const setAuthState = (dispatch: StateChanged<AuthState>) => {
-        setState((state) => ({
+        setState(state => ({
             ...state,
             auth: dispatch(state.auth),
         }));
     };
 
     const setDashboardState = (dispatch: StateChanged<DashboardState>) => {
-        setState((state) => ({
+        setState(state => ({
             ...state,
             dashboard: dispatch(state.dashboard),
         }));

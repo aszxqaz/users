@@ -1,10 +1,10 @@
 import { VStack } from '@chakra-ui/react';
+import { UsersTableAction } from '../../api/types';
 import { DashboardUser } from '../../state/entities/user';
 import { useDashboardMutation } from '../../state/hooks';
 import { Toolbox } from './Toolbox';
 import { UsersTable } from './UsersTable';
 import { useUsersTableState } from './state/hooks';
-import { UsersTableAction } from '../../api/types';
 
 export function Dashboard({ users }: { users: DashboardUser[] }) {
     const { tableState, setTableState } = useUsersTableState(users);
@@ -12,7 +12,7 @@ export function Dashboard({ users }: { users: DashboardUser[] }) {
 
     const onAction = (action: UsersTableAction) => async () => {
         setTableState(tableState.setActionInProgress(action));
-        const selectedUserIds = tableState.selectedUsers.map((u) => u.id);
+        const selectedUserIds = tableState.selectedUsers.map(u => u.id);
         await modifyUsers(selectedUserIds, action);
         setTableState(tableState.setActionInProgress(undefined));
     };
