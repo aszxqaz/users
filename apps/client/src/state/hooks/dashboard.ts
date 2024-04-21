@@ -42,14 +42,6 @@ export function useDashboardMutation() {
             : setDashboardState(prev => prev.error(err.message));
     }
 
-    function handleBlocked(
-        ids: DashboardUser['id'][],
-        action: Extract<UsersTableAction, 'block' | 'unblock'>
-    ) {
-        setDashboardState(prev => prev.usersBlocked(ids, action));
-        pushOutIfBlockedOrDeleted(ids, auth);
-    }
-
     function pushOutIfBlockedOrDeleted(
         ids: DashboardUser['id'][],
         auth: AuthStateInner
@@ -71,7 +63,10 @@ export function useDashboardMutation() {
                     switch (action) {
                         case 'block':
                         case 'unblock':
-                            handleBlocked(ids, action);
+                            setDashboardState(prev =>
+                                prev.usersBlocked(ids, action)
+                            );
+                            pushOutIfBlockedOrDeleted(ids, auth);
                             break;
                         case 'delete':
                             setDashboardState(prev => prev.usersExcluded(ids));
