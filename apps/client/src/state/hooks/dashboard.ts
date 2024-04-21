@@ -4,7 +4,7 @@ import { Err } from '../../helpers';
 import { useAuthContext } from '../context/auth';
 import { useDashboardContext } from '../context/dashboard';
 import { DashboardUser } from '../entities/dashboard';
-import { AuthStatus, DashboardState } from '../machinery';
+import { AuthStateInner, AuthStatus, DashboardState } from '../machinery';
 
 export function useDashboardQuery() {
     const { apiClient } = useApiClient();
@@ -47,10 +47,18 @@ export function useDashboardMutation() {
         action: Extract<UsersTableAction, 'block' | 'unblock'>
     ) {
         setDashboardState(prev => prev.usersBlocked(ids, action));
+        pushOutIfBlockedOrDeleted(ids, auth);
+    }
+
+    function pushOutIfBlockedOrDeleted(
+        ids: DashboardUser['id'][],
+        auth: AuthStateInner
+    ) {
         if (
             auth.status == AuthStatus.Authenticated &&
             ids.includes(auth.user.id)
         ) {
+            localStorage.removeItem('access_token');
             setAuthState(prev => prev.unauthenticated());
             setDashboardState(prev => DashboardState.initial);
         }
@@ -67,6 +75,7 @@ export function useDashboardMutation() {
                             break;
                         case 'delete':
                             setDashboardState(prev => prev.usersExcluded(ids));
+                            pushOutIfBlockedOrDeleted(ids, auth);
                     }
                 });
             });

@@ -8,7 +8,7 @@ export enum AuthStatus {
     Error,
 }
 
-type AuthStateInner =
+export type AuthStateInner =
     | {
           status: AuthStatus.Unknown;
       }
