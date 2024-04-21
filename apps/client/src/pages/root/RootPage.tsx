@@ -21,7 +21,7 @@ export function RootPage({ children }: PropsWithChildren) {
                     <ColorModeSwitcher />
                 </HStack>
             </NavBar>
-            <Container w="60rem" maxW="90%" mb="20rem">
+            <Container w="60rem" maxW="90%" mb="5rem">
                 {children}
             </Container>
         </Box>
