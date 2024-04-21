@@ -32,11 +32,9 @@ export function Router() {
                         index
                         path="/dashboard"
                         element={
-                            <AuthenticationRedirect whenUnauthenticated="/signin">
-                                <AuthorizationRedirect to="/signin">
-                                    <DashboardPage />
-                                </AuthorizationRedirect>
-                            </AuthenticationRedirect>
+                            <AuthorizationRedirect to="/signin">
+                                <DashboardPage />
+                            </AuthorizationRedirect>
                         }
                     />
                     <Route

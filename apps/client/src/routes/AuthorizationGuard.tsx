@@ -9,14 +9,14 @@ export function AuthorizationGuard({ children }: PropsWithChildren) {
 
     if (
         state.inner.status == AuthStatus.Authenticated &&
-        !state.inner.user.isBlocked
+        state.inner.user.isBlocked
     ) {
-        return children;
+        return (
+            <NoContentPlaceholder icon={AiOutlineStop} mt="20rem">
+                Sorry, you was blocked
+            </NoContentPlaceholder>
+        );
     }
 
-    return (
-        <NoContentPlaceholder icon={AiOutlineStop} mt="20rem">
-            Sorry, you was blocked
-        </NoContentPlaceholder>
-    );
+    return children;
 }

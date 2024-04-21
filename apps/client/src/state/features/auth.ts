@@ -50,4 +50,17 @@ export class AuthState extends BaseState<AuthStateInner> {
             message,
         });
     }
+
+    blocked(isBlocked: boolean): AuthState {
+        if (this.inner.status != AuthStatus.Authenticated) {
+            throw Error('user should be authenticated');
+        }
+        return new AuthState({
+            ...this.inner,
+            user: {
+                ...this.inner.user,
+                isBlocked,
+            },
+        });
+    }
 }

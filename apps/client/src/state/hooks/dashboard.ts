@@ -1,6 +1,7 @@
 import { useCallback, useEffect } from 'react';
 import { UsersTableAction, useApiClient } from '../../api';
 import { useAppState } from './app';
+import { AuthStatus } from '../features';
 
 export function useDashboardQuery() {
     const { apiClient } = useApiClient();
@@ -27,7 +28,8 @@ export function useDashboardQuery() {
 
 export function useDashboardMutation() {
     const { apiClient } = useApiClient();
-    const { setDashboardState, setAuthState } = useAppState();
+    const { setDashboardState, setAuthState, authState } = useAppState();
+    const auth = authState.inner;
 
     const modifyUsers = useCallback(
         async (ids: number[], action: UsersTableAction) => {
@@ -46,6 +48,14 @@ export function useDashboardMutation() {
                                 setDashboardState((prev) =>
                                     prev.usersBlocked(ids, action)
                                 );
+                                if (
+                                    auth.status == AuthStatus.Authenticated &&
+                                    ids.includes(auth.user.id)
+                                ) {
+                                    setAuthState((prev) =>
+                                        prev.unauthenticated()
+                                    );
+                                }
                                 break;
                             case 'delete':
                                 setDashboardState((prev) =>
