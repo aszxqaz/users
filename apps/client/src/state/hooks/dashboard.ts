@@ -62,15 +62,20 @@ export function useDashboardMutation() {
                 result.fold(handleError, () => {
                     switch (action) {
                         case 'block':
-                        case 'unblock':
                             setDashboardState(prev =>
                                 prev.usersBlocked(ids, action)
                             );
                             pushOutIfBlockedOrDeleted(ids, auth);
                             break;
+                        case 'unblock':
+                            setDashboardState(prev =>
+                                prev.usersBlocked(ids, action)
+                            );
+                            break;
                         case 'delete':
                             setDashboardState(prev => prev.usersExcluded(ids));
                             pushOutIfBlockedOrDeleted(ids, auth);
+                            break;
                     }
                 });
             });
