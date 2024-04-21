@@ -35,7 +35,6 @@ export class UsersService {
     }
 
     async setBlockedMany(ids: number[], isBlocked: boolean) {
-        console.log(isBlocked);
         return this.prisma.user.updateMany({
             where: {
                 id: {

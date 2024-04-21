@@ -9,7 +9,6 @@ import { AuthStatus } from '../../state/machinery';
 export function RootPage({ children }: PropsWithChildren) {
     const { authState } = useAuthFetcher();
     const state = authState.inner;
-    console.log(state);
     const shouldSignOut = () =>
         state.status == AuthStatus.Authenticated && state.user.isBlocked;
     useSignOut(shouldSignOut);
