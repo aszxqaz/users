@@ -4,8 +4,8 @@ import { CiDatabase } from 'react-icons/ci';
 import { RiErrorWarningLine } from 'react-icons/ri';
 import { CenteredSpinner } from '../../components/CenterSpinner';
 import { NoContentPlaceholder } from '../../components/NoContentPlaceholder';
-import { FetchingStatus } from '../../state/features';
 import { useDashboardQuery } from '../../state/hooks';
+import { FetchingStatus } from '../../state/machinery';
 import { Dashboard } from './Dashboard';
 
 export function DashboardPage() {

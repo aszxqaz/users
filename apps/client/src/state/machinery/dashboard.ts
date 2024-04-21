@@ -1,5 +1,5 @@
 import { UsersTableAction } from '../../api';
-import { DashboardUser } from '../entities/user';
+import { DashboardUser } from '../entities/dashboard';
 import { BaseState } from './base';
 
 export enum FetchingStatus {

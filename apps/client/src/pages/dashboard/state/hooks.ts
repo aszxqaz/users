@@ -1,6 +1,6 @@
+import { DashboardUser } from 'apps/client/src/state/entities/dashboard';
 import { sortBy } from 'lodash';
 import { useEffect, useMemo, useState } from 'react';
-import { DashboardUser } from '../../../state/entities/user';
 import { UsersTableState } from './table';
 
 export function useUsersTableState(users: DashboardUser[]) {

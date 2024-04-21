@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react';
 import { ChangeEvent } from 'react';
 import { formatDate } from '../../helpers';
-import { DashboardUser } from '../../state/entities/user';
+import { DashboardUser } from '../../state/entities/dashboard';
 import styles from './Table.module.css';
 
 type UsersTableProps = {

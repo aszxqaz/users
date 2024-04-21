@@ -1,7 +1,7 @@
 import { PropsWithChildren } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
-import { AuthStatus } from '../state/features';
-import { useAuthState } from '../state/hooks';
+import { useAuthContext } from '../state/context/auth';
+import { AuthStatus } from '../state/machinery';
 
 type AuthorizationRedirectProps = {
     to: string;
@@ -12,12 +12,9 @@ export function AuthorizationRedirect({
     to,
 }: AuthorizationRedirectProps) {
     const location = useLocation();
-    const { state } = useAuthState();
-
-    if (
-        state.inner.status == AuthStatus.Authenticated &&
-        !state.inner.user.isBlocked
-    ) {
+    const { authState } = useAuthContext();
+    const state = authState.inner;
+    if (state.status == AuthStatus.Authenticated && !state.user.isBlocked) {
         return children;
     }
 

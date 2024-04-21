@@ -1,6 +1,6 @@
 import { Navigate, useLocation } from 'react-router-dom';
-import { AuthStatus } from '../state/features';
-import { useAuthState } from '../state/hooks/app';
+import { useAuthContext } from '../state/context/auth';
+import { AuthStatus } from '../state/machinery';
 
 type AuthRedirectProps = {
     whenAuthenticated?: string;
@@ -14,9 +14,12 @@ export function AuthenticationRedirect({
     children,
 }: AuthRedirectProps) {
     const location = useLocation();
-    const { state } = useAuthState();
+    const { authState } = useAuthContext();
 
-    if (state.inner.status == AuthStatus.Authenticated && whenAuthenticated) {
+    if (
+        authState.inner.status == AuthStatus.Authenticated &&
+        whenAuthenticated
+    ) {
         return (
             <Navigate
                 to={whenAuthenticated}
@@ -26,7 +29,7 @@ export function AuthenticationRedirect({
         );
     }
     if (
-        state.inner.status == AuthStatus.Unauthenticated &&
+        authState.inner.status == AuthStatus.Unauthenticated &&
         whenUnauthenticated
     ) {
         return (

@@ -1,8 +1,8 @@
 import { plainToInstance } from 'class-transformer';
 import { mapAxiosErrorToResult } from '../helpers/axios';
 import { AsyncResult, Result } from '../helpers/myresult';
-import { DashboardUser, DashboardUserDto } from '../state/entities/user';
-import { User } from '../state/types';
+import { DashboardUser, DashboardUserDto } from '../state/entities/dashboard';
+import { User } from '../state/entities/user';
 import { BaseApiClient } from './base';
 import { SignUpDto, UsersTableAction } from './types';
 

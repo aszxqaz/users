@@ -1,15 +1,18 @@
 import { ChakraProvider, theme } from '@chakra-ui/react';
 import { ApiClientProvider } from './api';
 import { Router } from './routes/Router';
-import { AppContextProvider } from './state/appState';
+import { AuthProvider } from './state/context/auth';
+import { DashboardProvider } from './state/context/dashboard';
 
 function App() {
     return (
         <ChakraProvider theme={theme}>
             <ApiClientProvider>
-                <AppContextProvider>
-                    <Router />
-                </AppContextProvider>
+                <AuthProvider>
+                    <DashboardProvider>
+                        <Router />
+                    </DashboardProvider>
+                </AuthProvider>
             </ApiClientProvider>
         </ChakraProvider>
     );

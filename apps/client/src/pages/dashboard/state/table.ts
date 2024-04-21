@@ -1,5 +1,5 @@
+import { DashboardUser } from 'apps/client/src/state/entities/dashboard';
 import { UsersTableAction } from '../../../api/types';
-import { DashboardUser } from '../../../state/entities/user';
 
 type CheckedItem = {
     user: DashboardUser;

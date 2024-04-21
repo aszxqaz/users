@@ -21,6 +21,7 @@ export function Router() {
                     <Route
                         index
                         element={
+                            // <AuthorizationRedirect to="/signin">
                             <AuthenticationRedirect
                                 whenAuthenticated="/dashboard"
                                 whenUnauthenticated="/signin"

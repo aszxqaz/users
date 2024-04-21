@@ -2,21 +2,27 @@ import { Box, Container, HStack, Link, Text } from '@chakra-ui/react';
 import { PropsWithChildren } from 'react';
 import { NavLink } from 'react-router-dom';
 import { ColorModeSwitcher, NavBar, SpinnerOverlay } from '../../components';
-import { AuthStatus } from '../../state/features';
-import { useAuthFetcher } from '../../state/hooks/auth';
-import { User } from '../../state/types';
+import { User } from '../../state/entities/user';
+import { useAuthFetcher, useSignOut } from '../../state/hooks';
+import { AuthStatus } from '../../state/machinery';
 
 export function RootPage({ children }: PropsWithChildren) {
     const { authState } = useAuthFetcher();
-    if (authState.inner.status == AuthStatus.Unknown) {
+    const state = authState.inner;
+    console.log(state);
+    const shouldSignOut = () =>
+        state.status == AuthStatus.Authenticated && state.user.isBlocked;
+    useSignOut(shouldSignOut);
+    if (state.status == AuthStatus.Unknown) {
         return SpinnerOverlay();
     }
+
     return (
         <Box>
             <NavBar>
                 <HStack gap="0.5rem" ml="auto">
-                    {authState.inner.status == AuthStatus.Authenticated ? (
-                        <UserPanel user={authState.inner.user} />
+                    {state.status == AuthStatus.Authenticated ? (
+                        <UserPanel user={state.user} />
                     ) : null}
                     <ColorModeSwitcher />
                 </HStack>

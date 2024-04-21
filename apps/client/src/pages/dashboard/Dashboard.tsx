@@ -1,6 +1,6 @@
 import { VStack } from '@chakra-ui/react';
 import { UsersTableAction } from '../../api/types';
-import { DashboardUser } from '../../state/entities/user';
+import { DashboardUser } from '../../state/entities/dashboard';
 import { useDashboardMutation } from '../../state/hooks';
 import { Toolbox } from './Toolbox';
 import { UsersTable } from './UsersTable';

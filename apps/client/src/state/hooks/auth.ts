@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useApiClient } from '../../api';
-import { AuthStatus, DashboardState } from '../features';
+import { useAuthContext } from '../context/auth';
+import { useDashboardContext } from '../context/dashboard';
+import { AuthStatus, DashboardState } from '../machinery';
 import { SignInArgs, SignUpArgs } from '../types';
-import { useAppState, useAuthState } from './app';
 
 export function useAuthFetcher() {
-    const { authState, setAuthState } = useAppState();
+    const { authState, setAuthState } = useAuthContext();
     const { apiClient } = useApiClient();
 
     useEffect(() => {
@@ -32,7 +33,7 @@ export function useAuthFetcher() {
 
 export function useSignInAuthMutation() {
     const { apiClient } = useApiClient();
-    const { setState: setAuthState } = useAuthState();
+    const { setAuthState } = useAuthContext();
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
 
@@ -64,42 +65,42 @@ export function useSignInAuthMutation() {
 
 export function useSignUpAuthMutation() {
     const { apiClient } = useApiClient();
-    const { setState: setAuthState } = useAuthState();
+    const { setAuthState } = useAuthContext();
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
 
-    const signUp = useCallback(
-        (data: SignUpArgs) => {
-            setIsLoading(true);
-            apiClient.signUp(data).then(result => {
-                setIsLoading(false);
-                result.fold(
-                    err => {
-                        setAuthState(prev => prev.error(err.message));
-                        setError(err.message);
-                    },
-                    user => {
-                        if (user) {
-                            setAuthState(prev => prev.authenticated(user));
-                        } else {
-                            setAuthState(prev => prev.unauthenticated());
-                        }
+    const signUp = useCallback((data: SignUpArgs) => {
+        setIsLoading(true);
+        apiClient.signUp(data).then(result => {
+            setIsLoading(false);
+            result.fold(
+                err => {
+                    setAuthState(prev => prev.error(err.message));
+                    setError(err.message);
+                },
+                user => {
+                    if (user) {
+                        setAuthState(prev => prev.authenticated(user));
+                    } else {
+                        setAuthState(prev => prev.unauthenticated());
                     }
-                );
-            });
-        },
-        [setAuthState, setIsLoading]
-    );
+                }
+            );
+        });
+    }, []);
 
     return { isLoading, signUp, error };
 }
 
-export function useSignOut() {
-    const { setAuthState, setDashboardState } = useAppState();
+export function useSignOut(shouldSignOut?: () => boolean) {
+    const { setAuthState } = useAuthContext();
+    const { setDashboardState } = useDashboardContext();
 
     useEffect(() => {
-        localStorage.removeItem('access_token');
-        setAuthState(prev => prev.unauthenticated());
-        setDashboardState(_ => DashboardState.initial);
-    }, [setAuthState, setDashboardState]);
+        if (shouldSignOut?.() || !shouldSignOut) {
+            localStorage.removeItem('access_token');
+            setAuthState(prev => prev.unauthenticated());
+            setDashboardState(_ => DashboardState.initial);
+        }
+    }, [shouldSignOut]);
 }

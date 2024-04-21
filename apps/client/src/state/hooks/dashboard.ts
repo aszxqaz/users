@@ -1,13 +1,15 @@
 import { useCallback, useEffect } from 'react';
 import { UsersTableAction, useApiClient } from '../../api';
 import { Err } from '../../helpers';
-import { DashboardUser } from '../entities/user';
-import { AuthStatus, DashboardState } from '../features';
-import { useAppState } from './app';
+import { useAuthContext } from '../context/auth';
+import { useDashboardContext } from '../context/dashboard';
+import { DashboardUser } from '../entities/dashboard';
+import { AuthStatus, DashboardState } from '../machinery';
 
 export function useDashboardQuery() {
     const { apiClient } = useApiClient();
-    const { dashboardState, setDashboardState, setAuthState } = useAppState();
+    const { setAuthState } = useAuthContext();
+    const { dashboardState, setDashboardState } = useDashboardContext();
 
     useEffect(() => {
         setDashboardState(prev => prev.fetching());
@@ -30,7 +32,8 @@ export function useDashboardQuery() {
 
 export function useDashboardMutation() {
     const { apiClient } = useApiClient();
-    const { setDashboardState, setAuthState, authState } = useAppState();
+    const { authState, setAuthState } = useAuthContext();
+    const { setDashboardState } = useDashboardContext();
     const auth = authState.inner;
 
     function handleError(err: Err) {
