@@ -5,7 +5,7 @@ export class DashboardUserDto {
     id!: number;
     email!: string;
     name!: string;
-    blocked!: boolean;
+    isBlocked!: boolean;
 
     @Type(() => Date)
     createdAt!: Date;
@@ -40,7 +40,7 @@ export class DashboardUser {
             dto.id,
             dto.email,
             dto.name,
-            dto.blocked,
+            dto.isBlocked,
             dto.createdAt,
             dto.loggedInAt
         );

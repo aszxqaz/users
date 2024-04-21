@@ -7,8 +7,10 @@ export type AppState = {
 };
 
 export type User = {
+    id: number;
     email: string;
     name: string;
+    isBlocked: boolean;
 };
 
 export type SignInArgs = SignInDto;

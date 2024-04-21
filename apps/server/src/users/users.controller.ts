@@ -9,10 +9,13 @@ import {
     Patch,
     Post,
     Query,
+    UseGuards,
 } from '@nestjs/common';
 import { UpdateManyReqBody, UpdateManyReqBodyAction } from './request_body';
 import { UsersService } from './users.service';
+import { AuthorizationGuard } from '../common/guards';
 
+@UseGuards(AuthorizationGuard)
 @Controller('api/users')
 export class UsersController {
     constructor(private readonly usersService: UsersService) {}
@@ -23,7 +26,7 @@ export class UsersController {
         return { users };
     }
 
-    @HttpCode(HttpStatus.NO_CONTENT)
+    @HttpCode(HttpStatus.OK)
     // On method choosing:
     // https://stackoverflow.com/questions/21863326/delete-multiple-records-using-rest
     @Patch()
@@ -40,10 +43,10 @@ export class UsersController {
         }
     }
 
-    @HttpCode(HttpStatus.NO_CONTENT)
+    @HttpCode(HttpStatus.OK)
     @Delete(':id')
     async delete(@Param('id') id: string) {
-        await this.usersService.deleteOne(+id);
+        return await this.usersService.deleteOne(+id);
     }
 
     @HttpCode(HttpStatus.CREATED)

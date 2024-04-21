@@ -5,7 +5,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { UsersModule } from './users/users.module';
 import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
-import { AccessTokenGuard } from './common/access_token.guard';
+import { AuthenticationGuard } from './common/guards';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 
@@ -24,7 +24,7 @@ import { join } from 'path';
     providers: [
         {
             provide: APP_GUARD,
-            useClass: AccessTokenGuard,
+            useClass: AuthenticationGuard,
         },
     ],
 })

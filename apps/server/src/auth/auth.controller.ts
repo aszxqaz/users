@@ -7,17 +7,17 @@ import {
     Logger,
     Post,
     UnauthorizedException,
+    UseGuards,
 } from '@nestjs/common';
 import { SignInDto, SignUpDto } from './auth.dto';
 import { AuthService } from './auth.service';
 import { Public, User } from '../common/decorators';
-import { UserInRequest } from '../common/types';
+import { UserInRequest } from './access_token.strategy';
+import { AuthorizationGuard } from '../common/guards';
 
 @Controller('api/auth')
 export class AuthController {
     constructor(private readonly authService: AuthService) {}
-
-    private readonly logger = new Logger(AuthController.name);
 
     @Public()
     @Post('signup')
@@ -41,10 +41,10 @@ export class AuthController {
         };
     }
 
+    @UseGuards(AuthorizationGuard)
     @Get('me')
     @HttpCode(HttpStatus.OK)
     public async me(@User() user: UserInRequest) {
-        this.logger.debug(`/auth/me: ${JSON.stringify(user)}`);
         if (!user) {
             throw new UnauthorizedException();
         }

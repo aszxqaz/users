@@ -1,18 +1,18 @@
-import {
-    ForbiddenException,
-    Injectable,
-    UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
+import { User } from '@prisma/client';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PrismaService } from '../prisma/prisma.service';
-import { UserInRequest } from '../common/types';
 
 export type JwtPayload = {
-    email: string;
-    name: string;
     sub: number;
+} & Pick<User, 'email' | 'isBlocked' | 'name'>;
+
+export type UserInRequest = Omit<JwtPayload, 'sub'> & { id: number };
+
+export type RequestWithUser = Request & {
+    user: UserInRequest;
 };
 
 @Injectable()
@@ -27,7 +27,12 @@ export class AccessTokenStrategy extends PassportStrategy(Strategy, 'jwt') {
         });
     }
 
-    async validate({ sub, email, name }: JwtPayload): Promise<UserInRequest> {
+    async validate({
+        sub,
+        email,
+        name,
+        isBlocked,
+    }: JwtPayload): Promise<UserInRequest> {
         const user = await this.prisma.user.findUnique({
             where: {
                 id: sub,
@@ -36,8 +41,6 @@ export class AccessTokenStrategy extends PassportStrategy(Strategy, 'jwt') {
 
         if (!user) throw new UnauthorizedException();
 
-        if (user.isBlocked) throw new ForbiddenException();
-
-        return { id: sub, email, name };
+        return { id: sub, email, name, isBlocked };
     }
 }

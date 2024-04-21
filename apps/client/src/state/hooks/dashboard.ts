@@ -7,17 +7,16 @@ export function useDashboardQuery() {
     const { dashboardState, setDashboardState, setAuthState } = useAppState();
 
     useEffect(() => {
-        setDashboardState(prev => prev.fetching());
-        apiClient.fetchUsers().then(result => {
+        setDashboardState((prev) => prev.fetching());
+        apiClient.fetchUsers().then((result) => {
             result.fold(
-                err => {
-                    if (err.code == 401) {
-                        setAuthState(prev => prev.unauthenticated());
-                    }
-                    setDashboardState(prev => prev.error(err.message));
-                },
-                users => {
-                    setDashboardState(prev => prev.ready(users));
+                (err) =>
+                    err.code == 401 || err.code == 403
+                        ? setAuthState((prev) => prev.unauthenticated())
+                        : setDashboardState((prev) => prev.error(err.message)),
+
+                (users) => {
+                    setDashboardState((prev) => prev.ready(users));
                 }
             );
         });
@@ -32,24 +31,24 @@ export function useDashboardMutation() {
 
     const modifyUsers = useCallback(
         async (ids: number[], action: UsersTableAction) => {
-            return apiClient.modifyUsers(ids, action).then(result => {
+            return apiClient.modifyUsers(ids, action).then((result) => {
                 result.fold(
-                    err =>
-                        err.code == 401
-                            ? setAuthState(prev => prev.unauthenticated())
-                            : setDashboardState(prev =>
+                    (err) =>
+                        err.code == 401 || err.code == 403
+                            ? setAuthState((prev) => prev.unauthenticated())
+                            : setDashboardState((prev) =>
                                   prev.error(err.message)
                               ),
                     () => {
                         switch (action) {
                             case 'block':
                             case 'unblock':
-                                setDashboardState(prev =>
+                                setDashboardState((prev) =>
                                     prev.usersBlocked(ids, action)
                                 );
                                 break;
                             case 'delete':
-                                setDashboardState(prev =>
+                                setDashboardState((prev) =>
                                     prev.usersExcluded(ids)
                                 );
                         }

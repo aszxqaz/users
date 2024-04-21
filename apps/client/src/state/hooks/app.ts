@@ -8,22 +8,24 @@ export function useAppState() {
     const { state, setState } = useContext(AppContext);
 
     const setAuthState = (dispatch: StateChanged<AuthState>) => {
-        setState(state => ({
+        setState((state) => ({
             ...state,
             auth: dispatch(state.auth),
         }));
     };
 
     const setDashboardState = (dispatch: StateChanged<DashboardState>) => {
-        setState(state => ({
+        setState((state) => ({
             ...state,
             dashboard: dispatch(state.dashboard),
         }));
     };
 
     return {
+        appState: state,
         authState: state.auth,
         dashboardState: state.dashboard,
+        setAppState: setState,
         setAuthState,
         setDashboardState,
     };

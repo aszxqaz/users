@@ -5,7 +5,8 @@ export class BaseApiClient {
     protected headers: Record<string, string> = {};
 
     constructor() {
-        this.client = axios.create({ baseURL: '/api' });
+        const baseURL = import.meta.env.DEV ? 'http://localhost:3000/api' : '';
+        this.client = axios.create({ baseURL });
     }
 
     getHeadersWithAuth(

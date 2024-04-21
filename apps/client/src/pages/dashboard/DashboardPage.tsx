@@ -1,12 +1,12 @@
 import { Center, Heading, Spinner, Text, VStack } from '@chakra-ui/react';
-import { DashboardUser } from '../../state/entities/user';
 import { FetchingStatus } from '../../state/features';
-import { useDashboardMutation, useDashboardQuery } from '../../state/hooks';
-import { NoUsers } from './NoUsers';
-import { Toolbox } from './Toolbox';
-import { UsersTable } from './UsersTable';
-import { useUsersTableState } from './state/hooks';
-import { UsersTableAction } from '../../api/types';
+import { useDashboardQuery } from '../../state/hooks';
+import { NoContentPlaceholder } from '../../components/NoContentPlaceholder';
+import { CiDatabase } from 'react-icons/ci';
+import { RiErrorWarningLine } from 'react-icons/ri';
+import { Dashboard } from './Dashboard';
+import { PropsWithChildren } from 'react';
+import { CenteredSpinner } from '../../components/CenterSpinner';
 
 export function DashboardPage() {
     const { dashboardState } = useDashboardQuery();
@@ -14,67 +14,40 @@ export function DashboardPage() {
     switch (dashboardState.inner.status) {
         case FetchingStatus.Initial:
         case FetchingStatus.Fetching:
-            return (
-                <Center mt="35vh">
-                    <Spinner size="xl" />
-                </Center>
-            );
+            return <CenteredSpinner />;
+
         case FetchingStatus.Error:
-            return <Text>{dashboardState.inner.message}</Text>;
+            return <ServerError>{dashboardState.inner.message}</ServerError>;
+
         case FetchingStatus.Ready:
             const users = dashboardState.inner.users;
             return (
                 <VStack mt="5rem">
                     <Heading mb="4rem">Users</Heading>
                     {users.length > 0 ? (
-                        <DashboardUsersTable users={users} />
+                        <Dashboard users={users} />
                     ) : (
-                        <NoUsers />
+                        <DatabaseEmpty />
                     )}
                 </VStack>
             );
     }
 }
 
-function DashboardUsersTable({ users }: { users: DashboardUser[] }) {
-    const { tableState, setTableState } = useUsersTableState(users);
-    const { modifyUsers } = useDashboardMutation();
-
-    const onAction = (action: UsersTableAction) => async () => {
-        setTableState(tableState.setActionInProgress(action));
-        const selectedUserIds = tableState.selectedUsers.map((u) => u.id);
-        await modifyUsers(selectedUserIds, action);
-        setTableState(tableState.setActionInProgress(undefined));
-    };
-
-    const onChecked = (id: number, checked: boolean) => {
-        setTableState(tableState.setChecked(id, checked));
-    };
-
-    const onCheckAll = (checked: boolean) => {
-        setTableState(tableState.setCheckedAll(checked));
-    };
-
+function DatabaseEmpty() {
     return (
-        <VStack w="100%">
-            <Toolbox
-                mb="3rem"
-                onBlock={onAction('block')}
-                onUnblock={onAction('unblock')}
-                onDelete={onAction('delete')}
-                blockDisabled={!tableState.canBlock}
-                unblockDisabled={!tableState.canUnblock}
-                deleteDisabled={!tableState.canDelete}
-                blockLoading={tableState.isBlockInProgress}
-                unblockLoading={tableState.isUnblockInProgress}
-                deleteLoading={tableState.isDeleteInProgress}
-            />
-            <UsersTable
-                getCheckedForUser={tableState.getChecked.bind(tableState)}
-                onChecked={onChecked}
-                onCheckAll={onCheckAll}
-                users={tableState.users}
-            />
-        </VStack>
+        <NoContentPlaceholder icon={CiDatabase}>
+            There are no users
+            <br />
+            in the database
+        </NoContentPlaceholder>
+    );
+}
+
+function ServerError({ children }: PropsWithChildren) {
+    return (
+        <NoContentPlaceholder icon={RiErrorWarningLine}>
+            {children}
+        </NoContentPlaceholder>
     );
 }

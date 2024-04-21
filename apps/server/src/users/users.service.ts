@@ -21,6 +21,7 @@ export class UsersService {
         const user = await this.prisma.user.delete({
             where: { id },
         });
+        return { id };
     }
 
     async deleteMany(ids: number[]) {
@@ -34,6 +35,7 @@ export class UsersService {
     }
 
     async setBlockedMany(ids: number[], isBlocked: boolean) {
+        console.log(isBlocked);
         return this.prisma.user.updateMany({
             where: {
                 id: {

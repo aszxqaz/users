@@ -5,9 +5,9 @@ import { Public } from './common/decorators';
 
 @Controller()
 export class AppController {
-    @Public()
-    @Get()
-    index(@Res() res: Response) {
-        res.sendFile(path.join(__dirname, '..', 'client', 'index.html'));
-    }
+    // @Public()
+    // @Get()
+    // index(@Res() res: Response) {
+    //     res.sendFile(path.join(__dirname, '..', 'client', 'index.html'));
+    // }
 }
