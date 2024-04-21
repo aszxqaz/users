@@ -1,13 +1,6 @@
-import {
-    Box,
-    Flex,
-    HStack,
-    Heading,
-    Link,
-    useColorModeValue,
-} from '@chakra-ui/react';
+import { Box, Flex, Heading, useColorModeValue } from '@chakra-ui/react';
 import { ReactNode } from 'react';
-import { NavLink } from 'react-router-dom';
+import styles from './NavBar.module.css';
 
 type NavBarLink = {
     label: string;
@@ -27,7 +20,9 @@ export function NavBar({ links, children }: NavBarProps) {
             boxShadow="0 2px 2px 0 rgba(0, 0, 0, 0.15)"
         >
             <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
-                <Heading size="sm">Users App</Heading>
+                <Heading className={styles.heading} size="sm">
+                    Users App
+                </Heading>
                 {children}
             </Flex>
         </Box>

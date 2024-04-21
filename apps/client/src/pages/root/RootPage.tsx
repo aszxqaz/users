@@ -13,8 +13,8 @@ export function RootPage({ children }: PropsWithChildren) {
     }
     return (
         <Box>
-            <NavBar links={[]}>
-                <HStack gap="0.5rem">
+            <NavBar>
+                <HStack gap="0.5rem" ml="auto">
                     {authState.inner.status == AuthStatus.Authenticated ? (
                         <UserPanel user={authState.inner.user} />
                     ) : null}

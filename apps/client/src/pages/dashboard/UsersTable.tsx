@@ -2,6 +2,7 @@ import {
     Checkbox,
     Table,
     TableCaption,
+    TableContainer,
     Tbody,
     Td,
     Th,
@@ -37,55 +38,61 @@ export function UsersTable({
         onCheckAll(e.target.checked);
     };
     return (
-        <Table variant="striped" colorScheme="gray" size="sm">
-            <TableCaption>
-                Users data being stored in PostgreSQL database
-            </TableCaption>
-            <Thead>
-                <Tr>
-                    <Th className={styles.thresp}>
-                        <Checkbox
-                            isChecked={allChecked}
-                            isIndeterminate={isIndeterminate}
-                            onChange={onChangeAll}
-                        />
-                    </Th>
-                    <Th className={styles.thresp}>Id</Th>
-                    <Th className={styles.thresp}>Email</Th>
-                    <Th className={styles.thresp}>Name</Th>
-                    <Th className={styles.thresp}>Status</Th>
-                    <Th className={styles.thresp}>Signed up</Th>
-                    <Th className={styles.thresp + ` ` + styles.lastlogin}>
-                        Last login
-                    </Th>
-                </Tr>
-            </Thead>
-            <Tbody>
-                {users.map((user) => (
-                    <Tr key={user.id}>
-                        <Td className={styles.tdresp}>
+        <TableContainer>
+            <Table variant="striped" colorScheme="gray" size="sm">
+                <TableCaption>
+                    Users data being stored in PostgreSQL database
+                </TableCaption>
+                <Thead>
+                    <Tr>
+                        <Th className={styles.thresp}>
                             <Checkbox
-                                isChecked={getCheckedForUser(user.id)}
-                                onChange={getOnChangeOne(user.id)}
+                                isChecked={allChecked}
+                                isIndeterminate={isIndeterminate}
+                                onChange={onChangeAll}
                             />
-                        </Td>
-                        <Td className={styles.tdresp}>{user.id}</Td>
-                        <Td className={styles.tdresp}>{user.email}</Td>
-                        <Td className={styles.tdresp}>{user.name}</Td>
-                        <Td className={styles.tdresp}>
-                            {user.isBlocked ? 'blocked' : 'active'}
-                        </Td>
-                        <Td className={styles.tdresp}>
-                            {formatDate(user.createdAt)}
-                        </Td>
-                        <Td className={styles.tdresp + ` ` + styles.lastlogin}>
-                            {user.loggedInAt
-                                ? formatDate(user.loggedInAt)
-                                : 'N/A'}
-                        </Td>
+                        </Th>
+                        <Th className={styles.thresp}>Id</Th>
+                        <Th className={styles.thresp}>Email</Th>
+                        <Th className={styles.thresp}>Name</Th>
+                        <Th className={styles.thresp}>Status</Th>
+                        <Th className={styles.thresp}>Signed up</Th>
+                        <Th className={styles.thresp + ` ` + styles.lastlogin}>
+                            Last login
+                        </Th>
                     </Tr>
-                ))}
-            </Tbody>
-        </Table>
+                </Thead>
+                <Tbody>
+                    {users.map((user) => (
+                        <Tr key={user.id}>
+                            <Td className={styles.tdresp}>
+                                <Checkbox
+                                    isChecked={getCheckedForUser(user.id)}
+                                    onChange={getOnChangeOne(user.id)}
+                                />
+                            </Td>
+                            <Td className={styles.tdresp}>{user.id}</Td>
+                            <Td className={styles.tdresp}>{user.email}</Td>
+                            <Td className={styles.tdresp}>{user.name}</Td>
+                            <Td className={styles.tdresp}>
+                                {user.isBlocked ? 'blocked' : 'active'}
+                            </Td>
+                            <Td className={styles.tdresp}>
+                                {formatDate(user.createdAt)}
+                            </Td>
+                            <Td
+                                className={
+                                    styles.tdresp + ` ` + styles.lastlogin
+                                }
+                            >
+                                {user.loggedInAt
+                                    ? formatDate(user.loggedInAt)
+                                    : 'N/A'}
+                            </Td>
+                        </Tr>
+                    ))}
+                </Tbody>
+            </Table>
+        </TableContainer>
     );
 }
